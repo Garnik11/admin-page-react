@@ -1,86 +1,4 @@
-// import Table from "@mui/material/Table";
-// import TableBody from "@mui/material/TableBody";
-// import TableCell from "@mui/material/TableCell";
-// import TableContainer from "@mui/material/TableContainer";
-// import TableHead from "@mui/material/TableHead";
-// import TableRow from "@mui/material/TableRow";
-// import Paper from "@mui/material/Paper";
-// import EditIcon from "@mui/icons-material/Edit";
-// import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-// import Container from "@mui/material/Container";
-// import Stack from "@mui/material/Stack";
-// import Button from "@mui/material/Button";
-// import { useEffect, useState } from "react";
-// import { Link, Outlet, useNavigate } from "react-router-dom";
-// import TextField from '@mui/material/TextField';
-// import delProduct from "./productHooks/delProduct";
 
-// function Products() {
-//   const [active, setActive] = useState(true)
-//   const {products, deleteProduct} = delProduct()
-  
-//   return (
-//     <div>
-//       <Container sx={{ display: "flex", flexDirection: "column" }}>
-//         <Stack
-//           sx={{
-//             display: "flex",
-//             justifyContent: "end",
-//             alignItems: "end",
-//             marginTop: "20px",
-//           }}
-//         >
-//           <Button variant="contained">
-//             <Link to="createProduct">New Product</Link>
-//           </Button>
-//         </Stack>
-//         <TableContainer
-//           component={Paper}
-//           sx={{ width: "100%", margin: "50px auto" }}
-//         >
-//           <Table sx={{ minWidth: 650 }} aria-label="simple table">
-//             <TableHead>
-//               <TableRow>
-//                 <TableCell align="center">Name</TableCell>
-//                 <TableCell align="center">Image</TableCell>
-//                 <TableCell align="center">Price</TableCell>
-//                 <TableCell align="center">Description</TableCell>
-//                 <TableCell align="center">Category</TableCell>
-           
-//               </TableRow>
-//             </TableHead>
-//             <TableBody>
-//               {products?.map((product) => (
-//                 <TableRow
-//                   key={product.id}
-//                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-//                 >
-//                   <TableCell align="center"><p contentEditable={active} id="outlined-basic">{product.name}</p></TableCell>
-// <TableCell align="center">
-//     <img width="80px" />
-// </TableCell>
-// <TableCell align="center"><p contentEditable={active} id="outlined-basic">{product.price}</p></TableCell>
-// <TableCell align="center"><p contentEditable={active} id="outlined-basic">{product.description}</p></TableCell>
-// <TableCell align="center"><p contentEditable={active} id="outlined-basic">{product.Category.name}</p></TableCell>
-
-                  
-//                   <TableCell align="center">
-                    
-//                       {/* <EditIcon onClick ={ () =>  update_product(product.id)} /> */}
-                    
-//                     <DeleteOutlineIcon onClick={()=>deleteProduct(product.id)} />
-//                   </TableCell>
-//                 </TableRow>
-//               ))}
-//             </TableBody>
-//           </Table>
-//         </TableContainer>
-//       </Container>
-//     </div>
-//   );
-// }
-
-// export default Products;
 
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -96,17 +14,20 @@ import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import { useEffect, useState } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
-import useDelProduct from "./productHooks/delProduct";
+import useProduct from "./productHooks/useProduct";
 
 function Products() {
-  const [active, setActive] = useState(true);
+  const [active, setActive] = useState(false);
+  const [activeProductId, setActiveProductId] = useState(null);
+  const {products, deleteProduct, editProduct} = useProduct()
+  const [edit, setEdit] = useState({
+    name:"",
+    description:"",
+    price:"",
+    categoryId:""
+  })
 
-
-  const {products, deleteProduct} = useDelProduct()
-
-  
-
-  
+  console.log(edit);
 
   return (
     <div>
@@ -146,6 +67,7 @@ function Products() {
                 >
                   <TableCell align="center">
                     <p
+                      onChange={(e) => setEdit({...edit, name:e.target.value}) }
                       contentEditable={active}
                       id="product-name"
                       suppressContentEditableWarning={true}
@@ -158,6 +80,7 @@ function Products() {
                   </TableCell>
                   <TableCell align="center">
                     <p
+                    onChange={(e) => setEdit({...edit, price:e.target.value}) }
                       contentEditable={active}
                       id="product-price"
                       suppressContentEditableWarning={true}
@@ -167,6 +90,7 @@ function Products() {
                   </TableCell>
                   <TableCell align="center">
                     <p
+                    onChange={(e) => setEdit({...edit, description:e.target.value}) }
                       contentEditable={active}
                       id="product-description"
                       suppressContentEditableWarning={true}
@@ -176,6 +100,7 @@ function Products() {
                   </TableCell>
                   <TableCell align="center">
                     <p
+                    onChange={(e) => setEdit({...edit, categoryId:e.target.value}) }
                       contentEditable={active}
                       id="product-category"
                       suppressContentEditableWarning={true}
@@ -185,10 +110,28 @@ function Products() {
                   </TableCell>
                   <TableCell align="center">
                     <Stack direction="row" spacing={2}>
-                      <EditIcon
-                        onClick={() => setActive(!active)}
-                        sx={{ cursor: "pointer" }}
-                      />
+                      {activeProductId === product.id ? (
+                        <Button 
+                          onClick={() => {
+                            editProduct(product.id);
+                            setActiveProductId(null);
+                            setActive(!active)
+                          }}
+                          >
+                          save
+                        </Button>
+                      ) : (
+                        <Button
+                        onClick={() => {
+                          setActive(!active)
+                          setActiveProductId(product.id);
+                           }}
+                        
+                          sx={{ cursor: "pointer" }}
+                        >
+                          edit
+                        </Button>
+                      )}
                       <DeleteOutlineIcon
                         onClick={() => deleteProduct(product.id)}
                         sx={{ cursor: "pointer" }}
