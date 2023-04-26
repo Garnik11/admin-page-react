@@ -31,6 +31,7 @@ function Router() {
               <Route path="products" element={<ProtectedRoute><Products /></ProtectedRoute>}/>
               <Route path="categories" element={<ProtectedRoute><Categories /></ProtectedRoute>}/>
               
+              
             </Route>
           </Route>
         </Routes>
