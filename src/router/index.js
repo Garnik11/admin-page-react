@@ -9,6 +9,7 @@ import ProtectedRoute from "./privat.js";
 import Header from "../Pages/Header.js";
 import UpdateProduct from "../Pages/AdminPanel/UpdateProduct.js";
 import CreateProduct from "../Pages/AdminPanel/addProduct.js";
+import Categories from "../Pages/AdminPanel/Categories.js";
 
 
 function Router() {
@@ -27,8 +28,9 @@ function Router() {
             
               <Route path="addCategory" element={<ProtectedRoute><AddCategory /></ProtectedRoute>}/>
               <Route path="products/updateproduct/:id" element={<ProtectedRoute><UpdateProduct /></ProtectedRoute>}/>
-              <Route path="products" element={<ProtectedRoute><Products /></ProtectedRoute>}>
-              </Route>
+              <Route path="products" element={<ProtectedRoute><Products /></ProtectedRoute>}/>
+              <Route path="categories" element={<ProtectedRoute><Categories /></ProtectedRoute>}/>
+              
             </Route>
           </Route>
         </Routes>

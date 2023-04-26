@@ -54,13 +54,7 @@ const token =localStorage.getItem("token")
   }
 
   useEffect(() => {
-    fetch("http://localhost:5000/cat/categories",{
-        headers: {
-            "Content-type": "application/json; charset=UTF-8",
-            "Authorization":`Bearer ${token}`
-        },
-      
-    })
+    fetch("http://localhost:5000/cat/categories")
       .then((res) => res.json())
       .then((res) => {
         console.log(res);

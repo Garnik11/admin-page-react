@@ -60,83 +60,24 @@ function Products() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {products.map((product) => (
+            {products?.map((product) => (
                 <TableRow
                   key={product.id}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
+                  <TableCell align="center">{product.name}</TableCell>
                   <TableCell align="center">
-                    <p
-                      onChange={(e) => setEdit({...edit, name:e.target.value}) }
-                      contentEditable={active}
-                      id="product-name"
-                      suppressContentEditableWarning={true}
-                    >
-                      {product.name}
-                    </p>
+                    <img  width="80px" />
                   </TableCell>
+                  <TableCell align="center">{product.price}</TableCell>
+                  <TableCell align="center">{product.description}</TableCell>
+                   <TableCell align="center">{product.Category ? product.Category.name : ''}</TableCell> 
+
                   <TableCell align="center">
-                    <img width="80px" src={product.image} />
-                  </TableCell>
-                  <TableCell align="center">
-                    <p
-                    onChange={(e) => setEdit({...edit, price:e.target.value}) }
-                      contentEditable={active}
-                      id="product-price"
-                      suppressContentEditableWarning={true}
-                    >
-                      {product.price}
-                    </p>
-                  </TableCell>
-                  <TableCell align="center">
-                    <p
-                    onChange={(e) => setEdit({...edit, description:e.target.value}) }
-                      contentEditable={active}
-                      id="product-description"
-                      suppressContentEditableWarning={true}
-                    >
-                      {product.description}
-                    </p>
-                  </TableCell>
-                  <TableCell align="center">
-                    <p
-                    onChange={(e) => setEdit({...edit, categoryId:e.target.value}) }
-                      contentEditable={active}
-                      id="product-category"
-                      suppressContentEditableWarning={true}
-                    >
-                      {product.Category.name}
-                    </p>
-                  </TableCell>
-                  <TableCell align="center">
-                    <Stack direction="row" spacing={2}>
-                      {activeProductId === product.id ? (
-                        <Button 
-                          onClick={() => {
-                            editProduct(product.id);
-                            setActiveProductId(null);
-                            setActive(!active)
-                          }}
-                          >
-                          save
-                        </Button>
-                      ) : (
-                        <Button
-                        onClick={() => {
-                          setActive(!active)
-                          setActiveProductId(product.id);
-                           }}
-                        
-                          sx={{ cursor: "pointer" }}
-                        >
-                          edit
-                        </Button>
-                      )}
-                      <DeleteOutlineIcon
-                        onClick={() => deleteProduct(product.id)}
-                        sx={{ cursor: "pointer" }}
-                      />
-                    </Stack>
+                    <Link to={`updateproduct/${product.id}`}>
+                      <EditIcon />
+                    </Link>
+                    <DeleteOutlineIcon onClick={()=>deleteProduct(product.id)} />
                   </TableCell>
                 </TableRow>
               ))}

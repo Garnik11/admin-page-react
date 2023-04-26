@@ -50,7 +50,7 @@ function AddCategory() {
           <input
             type="text"
             value={category.name}
-            onChange={(e) => setCategory({ ...category, name: e.target.value })}
+            onChange={(e) => setCategory({ name: e.target.value })}
           />
         </label>
        
